@@ -21,7 +21,7 @@ void Gui::setup() {
 
   Body body2{5000.f, {500.f, 0.f}, {0, 200}, {0, 0}, 5, sf::Color::Green};
   Body body3{7000.f, {-400.f, 0.f}, {0, -300}, {0, 0}, 5, sf::Color::Green};
-  Body body4{1000.f, {-450.f, 0.f}, {0, -250}, {0, 0}, 5, sf::Color::Green};
+  Body body4{100000.f, {-450.f, 0.f}, {0, -250}, {0, 0}, 5, sf::Color::Green};
   Body body5{3000.f, {350.f, 0}, {0, 150}, {0, 0}, 5, sf::Color::Green};
 
   sf::Color planet{sf::Color::Blue};
@@ -29,6 +29,9 @@ void Gui::setup() {
   Body sat1{100.f, {500.f, 10.f}, {20, 200}, {0, 0}, 3, planet};
   Body sat2{100.f, {-410.f, 0.f}, {0, -290}, {0, 0}, 3, planet};
   Body sat3{100.f, {-450.f, 15.f}, {15, -250}, {0, 0}, 3, planet};
+  Body sat4{100.f, {-450.f, -15.f}, {-35, -250}, {0, 0}, 3, planet};
+  Body sat5{100.f, {-475.f, 3.f}, {0, -220}, {0, 0}, 3, planet};
+  Body sat6{100.f, {-460.f, 0.f}, {3, -270}, {0, 0}, 3, planet};
 
   bodies_.push_back(sun1);
   // bodies_.push_back(sun2);
@@ -40,6 +43,9 @@ void Gui::setup() {
   bodies_.push_back(sat1);
   bodies_.push_back(sat2);
   bodies_.push_back(sat3);
+  bodies_.push_back(sat4);
+  bodies_.push_back(sat5);
+  bodies_.push_back(sat6);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,12 @@
 #include "../include/body.hpp"
 
+#include <SFML/Config.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
+#include <vector>
 
 #include "../include/constants.hpp"
 
@@ -68,3 +73,68 @@ float distance(const Body& b1, const Body& b2) {
   float dy = b1.getPosition().y - b2.getPosition().y;
   return sqrtf(dx * dx + dy * dy);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+sf::Vector2f massCenter(const Body& b1, const Body& b2) {
+  return (b1.getPosition() * b1.getMass() + b2.getPosition() * b2.getMass()) /
+         (b1.getMass() + b2.getMass());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+sf::Vector2f massCenterVelocity(const Body& b1, const Body& b2) {
+  return (b1.getVelocity() * b1.getMass() + b2.getVelocity() * b2.getMass()) /
+         (b1.getMass() + b2.getMass());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+sf::Color mergeColour(const Body& b1, const Body& b2) {
+  sf::Uint8 red = static_cast<sf::Uint8>(
+      (b1.getColor().r * b1.getSize() + b2.getColor().r * b2.getSize()) /
+      (b1.getSize() + b2.getSize()));
+  sf::Uint8 green = static_cast<sf::Uint8>(
+      (b1.getColor().g * b1.getSize() + b2.getColor().g * b2.getSize()) /
+      (b1.getSize() + b2.getSize()));
+  sf::Uint8 blue = static_cast<sf::Uint8>(
+      (b1.getColor().b * b1.getSize() + b2.getColor().b * b2.getSize()) /
+      (b1.getSize() + b2.getSize()));
+  return sf::Color{red, green, blue};
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+float mergeSize(const Body& b1, const Body& b2) {
+  return sqrtf(b1.getSize() * b1.getSize() + b2.getSize() * b2.getSize());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+bool mergeBodies(std::vector<Body>& bodies, size_t i, size_t j) {
+  const Body& b1 = bodies[i];
+  const Body& b2 = bodies[j];
+  float size1 = b1.getSize();
+  float size2 = b2.getSize();
+  float bigger = size1 > size2 ? size1 : size2;
+
+  if (distance(b1, b2) > bigger) {
+    return false;
+  }
+
+  Body mergedBody{b1.getMass() + b2.getMass(), massCenter(b1, b2),
+                  massCenterVelocity(b1, b2),  {0, 0},
+                  mergeSize(b1, b2),           mergeColour(b1, b2)};
+  bodies.emplace_back(mergedBody);
+
+  bodies.erase(bodies.begin() + static_cast<long>(i));
+  if (i > j) {
+    bodies.erase(bodies.begin() + static_cast<long>(j));
+  } else {
+    bodies.erase(bodies.begin() + static_cast<long>(j - 1));
+  }
+
+  return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////

@@ -52,7 +52,17 @@ class Body {
   void update();
 };
 
+//////////////////////////////////////////////////////////////////////////////////////////
+
 float distance(const Body& b1, const Body& b2);
+sf::Vector2f massCenter(const Body& b1, const Body& b2);
+sf::Vector2f massCenterVelocity(const Body& b1, const Body& b2);
+sf::Color mergeColour(const Body& b1, const Body& b2);
+float mergeSize(const Body& b1, const Body& b2);
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+bool mergeBodies(std::vector<Body>& bodies, size_t i, size_t j);
 
 //////////////////////////////////////////////////////////////////////////////////////////
 

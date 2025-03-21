@@ -78,6 +78,25 @@ void Gui::run() {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 void Gui::bodiesUpdate() {
+  bool merged;
+  do {
+    merged = false;  // Reset the flag for this iteration
+    for (size_t i = 0; i < bodies_.size(); i++) {
+      for (size_t j = 0; j < bodies_.size(); j++) {
+        if (i == j) {
+          continue;  // Skip comparing the same body
+        }
+        if (mergeBodies(bodies_, i, j)) {
+          merged = true;  // Mark that a merge occurred
+          break;          // Exit the inner loop
+        }
+      }
+      if (merged) {
+        break;  // Exit the outer loop as well if a merge occurred
+      }
+    }
+  } while (merged);  // Repeat if a merge occurred
+
   for (size_t i{0}; i < bodies_.size(); i++) {
     for (size_t j{0}; j < bodies_.size(); j++) {
       if (i == j) {

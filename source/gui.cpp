@@ -56,7 +56,7 @@ void Gui::setup() {
 void Gui::randomSetup() {
   bodies_.push_back(randomStar());
   // bodies_[0].setMass(2.4E8);
-  bodies_[0].setMass(1E10);
+  // bodies_[0].setMass(1E10);
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
@@ -101,23 +101,23 @@ void Gui::randomSetup() {
   }
   debris.clear();
 
-  // debris = randomDebrisGroup(bodies_[0]);
-  // for (size_t i{0}; i < debris.size(); i++) {
-  //   bodies_.push_back(debris[i]);
-  // }
-  // debris.clear();
+  debris = randomDebrisGroup(bodies_[0]);
+  for (size_t i{0}; i < debris.size(); i++) {
+    bodies_.push_back(debris[i]);
+  }
+  debris.clear();
 
-  // debris = randomDebrisGroup(bodies_[0]);
-  // for (size_t i{0}; i < debris.size(); i++) {
-  //   bodies_.push_back(debris[i]);
-  // }
-  // debris.clear();
+  debris = randomDebrisGroup(bodies_[0]);
+  for (size_t i{0}; i < debris.size(); i++) {
+    bodies_.push_back(debris[i]);
+  }
+  debris.clear();
 
-  // debris = randomDebrisGroup(bodies_[0]);
-  // for (size_t i{0}; i < debris.size(); i++) {
-  //   bodies_.push_back(debris[i]);
-  // }
-  // debris.clear();
+  debris = randomDebrisGroup(bodies_[0]);
+  for (size_t i{0}; i < debris.size(); i++) {
+    bodies_.push_back(debris[i]);
+  }
+  debris.clear();
 
   // debris = randomDebrisGroup(bodies_[0]);
   // for (size_t i{0}; i < debris.size(); i++) {
@@ -169,7 +169,7 @@ void Gui::run() {
     }
 
     float deltaTime = clock.restart().asSeconds();
-    float moveSpeed = 200.f;
+    float moveSpeed = 1000.f;
 
     sf::Vector2f movement(0.f, 0.f);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) movement.x -= moveSpeed;

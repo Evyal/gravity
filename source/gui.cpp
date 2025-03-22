@@ -1,11 +1,14 @@
 #include "../include/gui.hpp"
 
 #include <SFML/Graphics/Color.hpp>
-#include <iostream>
+#include <SFML/System/Vector2.hpp>
+#include <cmath>
+#include <cstddef>
 
 #include "../include/body.hpp"
 #include "../include/constants.hpp"
 #include "../include/graphics.hpp"
+#include "../include/random.hpp"
 
 Gui::Gui()
     : window_(sf::VideoMode(constants::windowWidth, constants::windowHeight),
@@ -14,38 +17,81 @@ Gui::Gui()
 //////////////////////////////////////////////////////////////////////////////////////////
 
 void Gui::setup() {
-  Body sun1{30000000.f, {0.f, 0.f}, {0, 0}, {0, 0}, 15, sf::Color::Yellow};
-  // Body sun2{1000000.f, {150.f, 0.f}, {0, -100}, {0, 0}, 15,
-  // sf::Color::Yellow}; Body sun3{3000000.f, {0.f, 100.f}, {100, 0}, {0, 0},
-  // 15, sf::Color::Yellow};
+  // sf::Color star{sf::Color::Yellow};
 
-  Body body2{5000.f, {500.f, 0.f}, {0, 200}, {0, 0}, 5, sf::Color::Green};
-  Body body3{7000.f, {-400.f, 0.f}, {0, -300}, {0, 0}, 5, sf::Color::Green};
-  Body body4{100000.f, {-450.f, 0.f}, {0, -250}, {0, 0}, 5, sf::Color::Green};
-  Body body5{3000.f, {350.f, 0}, {0, 150}, {0, 0}, 5, sf::Color::Green};
+  // Body sun1{30000000.f, {0.f, 0.f}, {0, 0}, {0, 0}, 15, star};
 
-  sf::Color planet{sf::Color::Blue};
+  // sf::Color planet{sf::Color::Green};
 
-  Body sat1{100.f, {500.f, 10.f}, {20, 200}, {0, 0}, 3, planet};
-  Body sat2{100.f, {-410.f, 0.f}, {0, -290}, {0, 0}, 3, planet};
-  Body sat3{100.f, {-450.f, 15.f}, {15, -250}, {0, 0}, 3, planet};
-  Body sat4{100.f, {-450.f, -15.f}, {-35, -250}, {0, 0}, 3, planet};
-  Body sat5{100.f, {-475.f, 3.f}, {0, -220}, {0, 0}, 3, planet};
-  Body sat6{100.f, {-460.f, 0.f}, {3, -270}, {0, 0}, 3, planet};
+  // Body body2{5000.f, {500.f, 0.f}, {0, 200}, {0, 0}, 5, planet};
+  // Body body3{15000.f, {0, -400.f}, {300, 0}, {0, 0}, 5, planet};
+  // Body body4{100000.f, {-450.f, 0.f}, {0, -250}, {0, 0}, 5, planet};
+  // Body body5{3000.f, {350.f, 0}, {0, 150}, {0, 0}, 5, planet};
 
-  bodies_.push_back(sun1);
-  // bodies_.push_back(sun2);
-  // bodies_.push_back(sun3);
-  bodies_.push_back(body2);
-  bodies_.push_back(body3);
-  bodies_.push_back(body4);
-  bodies_.push_back(body5);
-  bodies_.push_back(sat1);
-  bodies_.push_back(sat2);
-  bodies_.push_back(sat3);
-  bodies_.push_back(sat4);
-  bodies_.push_back(sat5);
-  bodies_.push_back(sat6);
+  // sf::Color satellite{sf::Color::Blue};
+
+  // Body sat1{100.f, {500.f, 10.f}, {20, 200}, {0, 0}, 3, satellite};
+  // Body sat2{100.f, {0, -415.f}, {324, 0}, {0, 0}, 3, satellite};
+  // Body sat3{100.f, {-450.f, 35.f}, {35, -250}, {0, 0}, 3, satellite};
+  // Body sat4{100.f, {-450.f, -45.f}, {-45, -250}, {0, 0}, 3, satellite};
+  // Body sat5{100.f, {-485.f, 0.f}, {0, -295}, {0, 0}, 3, satellite};
+  // Body sat6{100.f, {-425.f, 0.f}, {0, -215}, {0, 0}, 3, satellite};
+
+  // bodies_.push_back(sun1);
+  // bodies_.push_back(body2);
+  // bodies_.push_back(body3);
+  // bodies_.push_back(body4);
+  // bodies_.push_back(body5);
+  // bodies_.push_back(sat1);
+  // bodies_.push_back(sat2);
+  // bodies_.push_back(sat3);
+  // bodies_.push_back(sat4);
+  // bodies_.push_back(sat5);
+  // bodies_.push_back(sat6);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+void Gui::randomSetup() {
+  bodies_.push_back(randomStar());
+  bodies_[0].setMass(1E8);
+  std::cout << bodies_[0].getMass() << '\n';
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomSatellite(bodies_[1]));
+  bodies_.push_back(randomSatellite(bodies_[1]));
+  bodies_.push_back(randomSatellite(bodies_[1]));
+  bodies_.push_back(randomSatellite(bodies_[1]));
+  bodies_.push_back(randomSatellite(bodies_[1]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[3]));
+  bodies_.push_back(randomSatellite(bodies_[3]));
+  bodies_.push_back(randomSatellite(bodies_[4]));
+  bodies_.push_back(randomSatellite(bodies_[4]));
+
+  // for (int i{0}; i < 100; i++) {
+  //   bodies_.push_back(randomDebris({-400, -300}, {0, -300}));
+  // }
+
+  // for (int i{0}; i < 50; i++) {
+  //   bodies_.push_back(randomDebris({500, 200}, {200, -100}));
+  // }
+
+  // for (int i{0}; i < 200; i++) {
+  //   bodies_.push_back(randomDebris({-100, -400}, {300, -100}));
+  // }
+
+  summonRandomDebris(bodies_[0]);
+  summonRandomDebris(bodies_[0]);
+  summonRandomDebris(bodies_[0]);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -57,6 +103,12 @@ void Gui::run() {
 
   while (window_.isOpen()) {
     while (window_.pollEvent(event)) {
+      if (event.type == sf::Event::KeyPressed &&
+          event.key.code == sf::Keyboard::Space) {
+        pause_ = !pause_;
+        continue;
+      }
+
       switch (event.type) {
         case sf::Event::Closed: {
           window_.close();
@@ -69,7 +121,10 @@ void Gui::run() {
     window_.clear(sf::Color::Black);
 
     bodiesDraw();
-    bodiesUpdate();
+
+    if (!pause_) {
+      bodiesUpdate();
+    }
 
     window_.display();
   }
@@ -113,5 +168,20 @@ void Gui::bodiesUpdate() {
 void Gui::bodiesDraw() {
   for (size_t i{0}; i < bodies_.size(); i++) {
     window_.draw(circleBody(bodies_[i]));
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+void Gui::summonRandomDebris(const Body& star) {
+  float d = randomFloat(200, 500);
+  float a = randomFloat(0, 2 * M_PIf);
+  sf::Vector2f center{star.getPosition().x + d * cosf(a),
+                      star.getPosition().y + d * sinf(a)};
+  float v = sqrtf(star.getMass() / d);
+  sf::Vector2f vel{v * sinf(a), -v * cosf(a)};
+
+  for (size_t i{0}; i < randomInt(30, 70); i++) {
+    bodies_.emplace_back(randomDebris(center, vel));
   }
 }

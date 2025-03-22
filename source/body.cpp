@@ -61,8 +61,8 @@ void Body::interaction(const Body& b) {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 void Body::update() {
-  setVelocity(getVelocity() + getAcceleration() / 500.f);
-  setPosition(getPosition() + getVelocity() / 500.f);
+  setVelocity(getVelocity() + getAcceleration() / constants::scalingFactor);
+  setPosition(getPosition() + getVelocity() / constants::scalingFactor);
   setAcceleration({0, 0});
 }
 
@@ -91,15 +91,17 @@ sf::Vector2f massCenterVelocity(const Body& b1, const Body& b2) {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 sf::Color mergeColour(const Body& b1, const Body& b2) {
+  float s1 = b1.getSize();
+  float s2 = b2.getSize();
   sf::Uint8 red = static_cast<sf::Uint8>(
-      (b1.getColor().r * b1.getSize() + b2.getColor().r * b2.getSize()) /
-      (b1.getSize() + b2.getSize()));
+      (b1.getColor().r * s1 * s1 + b2.getColor().r * s2 * s2) /
+      (s1 * s1 + s2 * s2));
   sf::Uint8 green = static_cast<sf::Uint8>(
-      (b1.getColor().g * b1.getSize() + b2.getColor().g * b2.getSize()) /
-      (b1.getSize() + b2.getSize()));
+      (b1.getColor().g * s1 * s1 + b2.getColor().g * s2 * s2) /
+      (s1 * s1 + s2 * s2));
   sf::Uint8 blue = static_cast<sf::Uint8>(
-      (b1.getColor().b * b1.getSize() + b2.getColor().b * b2.getSize()) /
-      (b1.getSize() + b2.getSize()));
+      (b1.getColor().b * s1 * s1 + b2.getColor().b * s2 * s2) /
+      (s1 * s1 + s2 * s2));
   return sf::Color{red, green, blue};
 }
 
@@ -114,11 +116,8 @@ float mergeSize(const Body& b1, const Body& b2) {
 bool mergeBodies(std::vector<Body>& bodies, size_t i, size_t j) {
   const Body& b1 = bodies[i];
   const Body& b2 = bodies[j];
-  float size1 = b1.getSize();
-  float size2 = b2.getSize();
-  float bigger = size1 > size2 ? size1 : size2;
 
-  if (distance(b1, b2) > bigger) {
+  if (distance(b1, b2) > (b1.getSize() + b2.getSize()) / 1.5f) {
     return false;
   }
 

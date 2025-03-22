@@ -13,9 +13,10 @@ class Gui {
  public:
   ////////////////////////////////////////////////////////////////////////////////
 
-  Gui();         // Constructor
-  void setup();  // Sets up the application
-  void run();    // Runs the application
+  Gui();               // Constructor
+  void setup();        // Sets up the application
+  void randomSetup();  // Sets up the application
+  void run();          // Runs the application
 
  private:
   ////////////////////////////////////////////////////////////////////////////////
@@ -23,9 +24,14 @@ class Gui {
 
   sf::RenderWindow window_;
   std::vector<Body> bodies_;
+  bool pause_{false};
 
   void bodiesUpdate();
   void bodiesDraw();
+
+  ////////////////////////////////////////////////////////////////////////////////
+
+  void summonRandomDebris(const Body& star);
 };
 
 #endif

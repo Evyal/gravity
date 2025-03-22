@@ -6,7 +6,7 @@
 
 int main() {
   Gui program;
-  program.setup();
+  program.randomSetup();
   program.run();
 
   return 0;

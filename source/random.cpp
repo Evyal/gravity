@@ -141,10 +141,10 @@ Body randomDebris(sf::Vector2f center, sf::Vector2f velocity) {
 
   sf::Vector2f newCenter = {center.x + d * cosf(a), center.y + d * sinf(a)};
 
-  velocity.x += randomFloat(-constants::randomDebrisSpeed,
-                            constants::randomDebrisSpeed);
-  velocity.y += randomFloat(-constants::randomDebrisSpeed,
-                            constants::randomDebrisSpeed);
+  velocity.x +=
+      randomFloat(-constants::randomDebrisSpeed, constants::randomDebrisSpeed);
+  velocity.y +=
+      randomFloat(-constants::randomDebrisSpeed, constants::randomDebrisSpeed);
 
   Body body{mass,
             newCenter,
@@ -154,4 +154,19 @@ Body randomDebris(sf::Vector2f center, sf::Vector2f velocity) {
                         constants::maxRandomDebrisSize),
             constants::debrisColor};
   return body;
+}
+
+std::vector<Body> randomDebrisGroup(const Body &star) {
+  std::vector<Body> debris{};
+  float d = randomFloat(200, 500);
+  float a = randomFloat(0, 2 * M_PIf);
+  sf::Vector2f center{star.getPosition().x + d * cosf(a),
+                      star.getPosition().y + d * sinf(a)};
+  float v = sqrtf(star.getMass() / d);
+  sf::Vector2f vel{v * sinf(a), -v * cosf(a)};
+
+  for (size_t i{0}; i < randomInt(30, 70); i++) {
+    debris.emplace_back(randomDebris(center, vel));
+  }
+  return debris;
 }

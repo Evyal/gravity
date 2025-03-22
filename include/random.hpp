@@ -26,5 +26,6 @@ Body randomPlanet(const Body &star);
 Body randomSatellite(const Body &planet);
 Body randomDebris();
 Body randomDebris(sf::Vector2f center, sf::Vector2f velocity);
+std::vector<Body> randomDebrisGroup(const Body &star);
 
 #endif

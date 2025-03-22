@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
 #include <cstddef>
+#include <vector>
 
 #include "../include/body.hpp"
 #include "../include/constants.hpp"
@@ -54,8 +55,10 @@ void Gui::setup() {
 
 void Gui::randomSetup() {
   bodies_.push_back(randomStar());
-  bodies_[0].setMass(1E8);
-  std::cout << bodies_[0].getMass() << '\n';
+  // bodies_[0].setMass(2.4E8);
+  bodies_[0].setMass(1E10);
+  bodies_.push_back(randomPlanet(bodies_[0]));
+  bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
@@ -76,22 +79,65 @@ void Gui::randomSetup() {
   bodies_.push_back(randomSatellite(bodies_[3]));
   bodies_.push_back(randomSatellite(bodies_[4]));
   bodies_.push_back(randomSatellite(bodies_[4]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[3]));
+  bodies_.push_back(randomSatellite(bodies_[3]));
+  bodies_.push_back(randomSatellite(bodies_[4]));
+  bodies_.push_back(randomSatellite(bodies_[4]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[3]));
+  bodies_.push_back(randomSatellite(bodies_[3]));
+  bodies_.push_back(randomSatellite(bodies_[4]));
+  bodies_.push_back(randomSatellite(bodies_[4]));
 
-  // for (int i{0}; i < 100; i++) {
-  //   bodies_.push_back(randomDebris({-400, -300}, {0, -300}));
+
+  // COOL EFFECT WITH DEBRIS 
+  // std::vector<Body> debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
   // }
+  // debris.clear();
 
-  // for (int i{0}; i < 50; i++) {
-  //   bodies_.push_back(randomDebris({500, 200}, {200, -100}));
+  // debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
   // }
+  // debris.clear();
 
-  // for (int i{0}; i < 200; i++) {
-  //   bodies_.push_back(randomDebris({-100, -400}, {300, -100}));
+  // debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
   // }
+  // debris.clear();
 
-  summonRandomDebris(bodies_[0]);
-  summonRandomDebris(bodies_[0]);
-  summonRandomDebris(bodies_[0]);
+  // debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
+  // }
+  // debris.clear();
+
+  // debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
+  // }
+  // debris.clear();
+
+  // debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
+  // }
+  // debris.clear();
+
+  // debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
+  // }
+  // debris.clear();
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -172,16 +218,3 @@ void Gui::bodiesDraw() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-
-void Gui::summonRandomDebris(const Body& star) {
-  float d = randomFloat(200, 500);
-  float a = randomFloat(0, 2 * M_PIf);
-  sf::Vector2f center{star.getPosition().x + d * cosf(a),
-                      star.getPosition().y + d * sinf(a)};
-  float v = sqrtf(star.getMass() / d);
-  sf::Vector2f vel{v * sinf(a), -v * cosf(a)};
-
-  for (size_t i{0}; i < randomInt(30, 70); i++) {
-    bodies_.emplace_back(randomDebris(center, vel));
-  }
-}

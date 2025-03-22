@@ -35,7 +35,7 @@ inline const BodyPar defaultBodyParameters{
 
 inline const sf::Color starColor{sf::Color::Yellow};
 inline constexpr float maxRandomStarMass{1E10};
-inline constexpr float minRandomStarMass{1E8};
+inline constexpr float minRandomStarMass{1E9};
 inline constexpr float maxRandomStarSize{15.f};
 inline constexpr float minRandomStarSize{10.f};
 
@@ -44,20 +44,20 @@ inline constexpr float maxRandomPlanetMass{1E8};
 inline constexpr float minRandomPlanetMass{1E7};
 inline constexpr float maxRandomPlanetSize{3.f};
 inline constexpr float minRandomPlanetSize{2.f};
-inline constexpr float maxRandomPlanetDistance{600.f};
-inline constexpr float minRandomPlanetDistance{200.f};
+inline constexpr float maxRandomPlanetDistance{1000.f};
+inline constexpr float minRandomPlanetDistance{500.f};
 
 inline const sf::Color satelliteColor{sf::Color::Blue};
-inline constexpr float maxRandomSatelliteMass{1000.f};
-inline constexpr float minRandomSatelliteMass{100.f};
+inline constexpr float maxRandomSatelliteMass{10.f};
+inline constexpr float minRandomSatelliteMass{1.f};
 inline constexpr float maxRandomSatelliteSize{1.5f};
 inline constexpr float minRandomSatelliteSize{0.8f};
 inline constexpr float maxRandomSatelliteDistance{30.f};
-inline constexpr float minRandomSatelliteDistance{15.f};
+inline constexpr float minRandomSatelliteDistance{10.f};
 
 inline const sf::Color debrisColor{sf::Color::Red};
-inline constexpr float maxRandomDebrisMass{100.f};
-inline constexpr float minRandomDebrisMass{10.f};
+inline constexpr float maxRandomDebrisMass{1.f};
+inline constexpr float minRandomDebrisMass{0.01f};
 inline constexpr float maxRandomDebrisSize{0.7f};
 inline constexpr float minRandomDebrisSize{0.5f};
 inline constexpr float maxRandomDebrisCenterDistance{70.f};

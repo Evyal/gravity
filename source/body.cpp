@@ -49,10 +49,6 @@ void Body::setAcceleration(sf::Vector2f acceleration) {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 void Body::interaction(const Body& b) {
-  float bigger = this->size_ > b.size_ ? this->size_ : b.size_;
-  if (distance(*this, b) < bigger) {
-    return;
-  }
   acceleration_ += constants::interactionStrength * b.getMass() *
                    (b.getPosition() - getPosition()) /
                    powf(distance(*this, b), 3);

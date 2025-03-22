@@ -158,7 +158,7 @@ Body randomDebris(sf::Vector2f center, sf::Vector2f velocity) {
 
 std::vector<Body> randomDebrisGroup(const Body &star) {
   std::vector<Body> debris{};
-  float d = randomFloat(200, 500);
+  float d = randomFloat(300,1000);
   float a = randomFloat(0, 2 * M_PIf);
   sf::Vector2f center{star.getPosition().x + d * cosf(a),
                       star.getPosition().y + d * sinf(a)};

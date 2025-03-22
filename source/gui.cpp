@@ -94,19 +94,12 @@ void Gui::randomSetup() {
   bodies_.push_back(randomSatellite(bodies_[4]));
   bodies_.push_back(randomSatellite(bodies_[4]));
 
-
-  // COOL EFFECT WITH DEBRIS 
-  // std::vector<Body> debris = randomDebrisGroup(bodies_[0]);
-  // for (size_t i{0}; i < debris.size(); i++) {
-  //   bodies_.push_back(debris[i]);
-  // }
-  // debris.clear();
-
-  // debris = randomDebrisGroup(bodies_[0]);
-  // for (size_t i{0}; i < debris.size(); i++) {
-  //   bodies_.push_back(debris[i]);
-  // }
-  // debris.clear();
+  // COOL EFFECT WITH DEBRIS
+  std::vector<Body> debris = randomDebrisGroup(bodies_[0]);
+  for (size_t i{0}; i < debris.size(); i++) {
+    bodies_.push_back(debris[i]);
+  }
+  debris.clear();
 
   // debris = randomDebrisGroup(bodies_[0]);
   // for (size_t i{0}; i < debris.size(); i++) {
@@ -138,6 +131,11 @@ void Gui::randomSetup() {
   // }
   // debris.clear();
 
+  // debris = randomDebrisGroup(bodies_[0]);
+  // for (size_t i{0}; i < debris.size(); i++) {
+  //   bodies_.push_back(debris[i]);
+  // }
+  // debris.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +143,12 @@ void Gui::randomSetup() {
 void Gui::run() {
   window_.setPosition({constants::windowPosX, constants::windowPosY});
   window_.setFramerateLimit(constants::windowFrameRate);
+  // window_.setFramerateLimit(0);
   sf::Event event;
+
+  sf::View view(
+      sf::FloatRect(0, 0, constants::windowWidth, constants::windowHeight));
+  sf::Clock clock;
 
   while (window_.isOpen()) {
     while (window_.pollEvent(event)) {
@@ -164,6 +167,25 @@ void Gui::run() {
           break;
       }
     }
+
+    float deltaTime = clock.restart().asSeconds();
+    float moveSpeed = 200.f;
+
+    sf::Vector2f movement(0.f, 0.f);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) movement.x -= moveSpeed;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+      movement.x += moveSpeed;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) movement.y -= moveSpeed;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) movement.y += moveSpeed;
+    view.move(movement * deltaTime);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Add))
+      view.zoom(0.99f);  // Zoom in (slightly decrease view size)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract))
+      view.zoom(1.01f);  // Zoom out (slightly increase view size)
+
+    window_.setView(view);
+
     window_.clear(sf::Color::Black);
 
     bodiesDraw();

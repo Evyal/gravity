@@ -5,8 +5,10 @@
 #include <cmath>
 #include <cstddef>
 #include <random>
+#include <vector>
 
 #include "../include/body.hpp"
+#include "celestial.hpp"
 
 extern std::default_random_engine rng;
 
@@ -22,6 +24,8 @@ sf::Vector2f randomPoint(float min, float max);
 // Random for generating BODIES
 
 Body randomStar(sf::Vector2f center = {0, 0});
+std::array<Body, 2> randomTwoBody(sf::Vector2f center = {0, 0});
+std::array<Body, 3> randomThreeBody(sf::Vector2f center = {0, 0});
 Body randomPlanet(const Body &star);
 Body randomSatellite(const Body &planet);
 Body randomDebris();

@@ -113,7 +113,7 @@ bool mergeBodies(std::vector<Body>& bodies, size_t i, size_t j) {
   const Body& b1 = bodies[i];
   const Body& b2 = bodies[j];
 
-  if (distance(b1, b2) > (b1.getSize() + b2.getSize()) / 1.5f) {
+  if (distance(b1, b2) > (b1.getSize() + b2.getSize())) {
     return false;
   }
 

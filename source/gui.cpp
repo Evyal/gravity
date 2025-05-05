@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <array>
 #include <cmath>
 #include <cstddef>
 #include <vector>
@@ -10,6 +12,7 @@
 #include "../include/constants.hpp"
 #include "../include/graphics.hpp"
 #include "../include/random.hpp"
+#include "celestial.hpp"
 
 Gui::Gui()
     : window_(sf::VideoMode(constants::windowWidth, constants::windowHeight),
@@ -54,9 +57,20 @@ void Gui::setup() {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 void Gui::randomSetup() {
-  bodies_.push_back(randomStar());
+  // ThreeBody stars{randomThreeBody({0, 0})};
+  // bodies_.push_back(stars.getStar(0));
+  // bodies_.push_back(stars.getStar(1));
+  // bodies_.push_back(stars.getStar(2));
+
+  // bodies_.push_back(randomStar());
+  // std::array<Body, 2> stars{randomTwoBody({0, 0})};
+  // bodies_.push_back(stars[0]);
+  // bodies_.push_back(stars[1]);
+
   // bodies_[0].setMass(2.4E8);
   // bodies_[0].setMass(1E10);
+  bodies_.push_back(randomStar());
+
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
@@ -67,32 +81,24 @@ void Gui::randomSetup() {
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
   bodies_.push_back(randomPlanet(bodies_[0]));
-  bodies_.push_back(randomSatellite(bodies_[1]));
-  bodies_.push_back(randomSatellite(bodies_[1]));
-  bodies_.push_back(randomSatellite(bodies_[1]));
-  bodies_.push_back(randomSatellite(bodies_[1]));
-  bodies_.push_back(randomSatellite(bodies_[1]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
+  bodies_.push_back(randomSatellite(bodies_[5]));
+  bodies_.push_back(randomSatellite(bodies_[5]));
+  bodies_.push_back(randomSatellite(bodies_[5]));
+  bodies_.push_back(randomSatellite(bodies_[5]));
+  bodies_.push_back(randomSatellite(bodies_[5]));
+  bodies_.push_back(randomSatellite(bodies_[4]));
   bodies_.push_back(randomSatellite(bodies_[3]));
   bodies_.push_back(randomSatellite(bodies_[3]));
   bodies_.push_back(randomSatellite(bodies_[4]));
   bodies_.push_back(randomSatellite(bodies_[4]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
   bodies_.push_back(randomSatellite(bodies_[3]));
   bodies_.push_back(randomSatellite(bodies_[3]));
   bodies_.push_back(randomSatellite(bodies_[4]));
   bodies_.push_back(randomSatellite(bodies_[4]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
-  bodies_.push_back(randomSatellite(bodies_[2]));
-  bodies_.push_back(randomSatellite(bodies_[3]));
-  bodies_.push_back(randomSatellite(bodies_[3]));
-  bodies_.push_back(randomSatellite(bodies_[4]));
-  bodies_.push_back(randomSatellite(bodies_[4]));
+  bodies_.push_back(randomSatellite(bodies_[6]));
+  bodies_.push_back(randomSatellite(bodies_[7]));
+  bodies_.push_back(randomSatellite(bodies_[7]));
+  bodies_.push_back(randomSatellite(bodies_[8]));
 
   // COOL EFFECT WITH DEBRIS
   std::vector<Body> debris = randomDebrisGroup(bodies_[0]);
@@ -119,6 +125,8 @@ void Gui::randomSetup() {
   }
   debris.clear();
 
+  ///////////////////////////////////////////////////////////////////////////
+
   // debris = randomDebrisGroup(bodies_[0]);
   // for (size_t i{0}; i < debris.size(); i++) {
   //   bodies_.push_back(debris[i]);
@@ -143,19 +151,27 @@ void Gui::randomSetup() {
 void Gui::run() {
   window_.setPosition({constants::windowPosX, constants::windowPosY});
   window_.setFramerateLimit(constants::windowFrameRate);
-  // window_.setFramerateLimit(0);
+  window_.setFramerateLimit(constants::windowFrameRate);
   sf::Event event;
 
   sf::View view(
       sf::FloatRect(0, 0, constants::windowWidth, constants::windowHeight));
+  view.zoom(5.f);
+
   sf::Clock clock;
 
   while (window_.isOpen()) {
     while (window_.pollEvent(event)) {
-      if (event.type == sf::Event::KeyPressed &&
-          event.key.code == sf::Keyboard::Space) {
-        pause_ = !pause_;
-        continue;
+      if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Space) {
+          pause_ = !pause_;
+          continue;
+        }
+
+        if (event.key.code == sf::Keyboard::R) {
+          bodies_.clear();
+          randomSetup();
+        }
       }
 
       switch (event.type) {
@@ -179,14 +195,12 @@ void Gui::run() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) movement.y += moveSpeed;
     view.move(movement * deltaTime);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Add))
-      view.zoom(0.99f);  // Zoom in (slightly decrease view size)
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract))
-      view.zoom(1.01f);  // Zoom out (slightly increase view size)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Add)) view.zoom(0.99f);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract)) view.zoom(1.01f);
 
     window_.setView(view);
 
-    window_.clear(sf::Color::Black);
+    window_.clear(sf::Color{20, 20, 20});
 
     bodiesDraw();
 
@@ -203,15 +217,15 @@ void Gui::run() {
 void Gui::bodiesUpdate() {
   bool merged;
   do {
-    merged = false;  // Reset the flag for this iteration
+    merged = false;
     for (size_t i = 0; i < bodies_.size(); i++) {
-      for (size_t j = 0; j < bodies_.size(); j++) {
+      for (size_t j = i + 1; j < bodies_.size(); j++) {
         if (i == j) {
-          continue;  // Skip comparing the same body
+          continue;
         }
         if (mergeBodies(bodies_, i, j)) {
-          merged = true;  // Mark that a merge occurred
-          break;          // Exit the inner loop
+          merged = true;
+          break;
         }
       }
       if (merged) {

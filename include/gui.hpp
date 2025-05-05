@@ -13,10 +13,10 @@ class Gui {
  public:
   ////////////////////////////////////////////////////////////////////////////////
 
-  Gui();               // Constructor
-  void setup();        // Sets up the application
-  void randomSetup();  // Sets up the application
-  void run();          // Runs the application
+  Gui();
+  void setup();
+  void randomSetup();
+  void run();
 
  private:
   ////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,6 @@ class Gui {
   void bodiesDraw();
 
   ////////////////////////////////////////////////////////////////////////////////
-
 };
 
 #endif

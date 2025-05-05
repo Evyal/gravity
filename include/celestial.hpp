@@ -4,6 +4,7 @@
 #include "body.hpp"
 
 class Star : Body {};
+
 class Planet : Body {};
 class Satellite : Body {};
 class Comet : Body {};
